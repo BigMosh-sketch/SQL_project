@@ -311,9 +311,6 @@ End
 --Try out
  Select * From Sales.Employees
  Insert Into Sales.Employees(EmployeeID,FirstName, LastName,Department)
- Values(6,'Ismaila','Ronke','Admin'),
-		(7,'Bolaji','Zainab','Fashion Designer')
-
-Select 
-	* 
-From sales.employeeLogs
+ Values (6,'Ismaila','Ronke','Admin'),
+		(7,'Bolaji','Zainab','Fashion Designer'),
+		(8,'Islamiyah','Ola', 'Teacher')
