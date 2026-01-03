@@ -1,0 +1,86 @@
+#File and Folders not to be added to the github
+
+# PDF
+*.pdf
+
+#Folders
+.vs/
+
+# Environment
+.env
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+
+# Python
+__pycache__/
+venv/
+
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+*.key
+*.pem
+
+# =========================
+# Python cache & compiled files
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# =========================
+# Virtual environments
+# =========================
+venv/
+.venv/
+env/
+ENV/
+
+# =========================
+# Logs & temporary files
+# =========================
+*.log
+*.tmp
+*.temp
+*.swp
+
+# =========================
+# Test & coverage reports
+# =========================
+.coverage
+htmlcov/
+pytest_cache/
+
+# =========================
+# Build & distribution
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# IDE / Editor settings
+# =========================
+.vscode/
+.idea/
+*.iml
+
+# =========================
+# OS-generated files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Database files (local only)
+# =========================
+*.db
+*.sqlite
+*.sqlite3
