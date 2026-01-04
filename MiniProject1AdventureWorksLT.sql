@@ -175,3 +175,52 @@ WHERE
 ORDER BY 
     CategoryName, 
     RankNum; -- Sort by category and rank for clear presentation
+
+
+    Use SalesDB
+
+    -- Write a query to rank customers based on their sales,  the result should include the customer's customerID, Full Name, Country, Sales and their rank
+    -- Three possible ways to write the query
+    -- Using CTE
+
+    With CustomersSales As (
+     Select 
+        c.CustomerID,
+        concat(coalesce (c.FirstName,''),' ',coalesce(c.LastName,'')) as FullName,
+        c.Country,
+       Sum(o.Sales) as TotalSales
+    From sales.Customers c Inner Join sales.Orders o
+    On c.customerID = o.CustomerID
+    Group by c.CustomerID,c.FirstName,c.LastName,c.Country
+    
+) 
+Select 
+    CustomerID,
+    FullName,
+    Country,
+    TotalSales,
+    Rank() over( order by TotalSales DESC) as RankNo
+From CustomersSales
+
+--Using Subquery
+
+ Select 
+        c.CustomerID,
+        concat(coalesce (c.FirstName,''),' ',coalesce(c.LastName,'')) as FullName,
+        c.Country,
+        TotalSales,
+       Rank() over(order by TotalSales DESC) RankNo
+    From sales.Customers c Inner Join (select customerID,sum(Sales) TotalSales From sales.orders group by CustomerID) o
+    On c.customerID = o.CustomerID
+    
+-- Using Single query
+ Select 
+        c.CustomerID,
+        concat(coalesce (c.FirstName,''),' ',coalesce(c.LastName,'')) as FullName,
+        c.Country,
+       Sum(o.Sales) as TotalSales,
+       Rank() over(order by sum(o.Sales) DESC) RankNo
+    From sales.Customers c Inner Join sales.Orders o
+    On c.customerID = o.CustomerID
+    Group by c.CustomerID,c.FirstName,c.LastName,c.Country
+    
