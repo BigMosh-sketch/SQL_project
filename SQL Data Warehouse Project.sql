@@ -68,9 +68,13 @@ Create Schema Silver
 Go
 Create Schema Gold
 
---- Create the Bronze Layer
+------------------------------------------- Create the Bronze Layer------------------------------------------------------------------------------
 
+-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CRM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+								--Crm_cust_INfo--
 
+If Object_Id('bronze.crm_cust_info','U') IS NOT NULL
+	Drop Table bronze.crm_cust_info;
 
 Create Table bronze.crm_cust_info (
 cst_id Int,
@@ -80,8 +84,12 @@ cst_lastname Nvarchar(50),
 cst_marital_status Nvarchar(50),
 cst_gndr Nvarchar (50),
 cst_create_date Date
-)
+);
 Go
+									--CRM_prd_Info---
+
+If Object_Id('bronze.crm_prd_info','U') IS NOT NULL
+	Drop Table bronze.crm_prd_info;
 
 Create Table bronze.crm_prd_info(
 prd_id Int,
@@ -91,10 +99,12 @@ prd_cost Int,
 prd_line Nvarchar (50),
 prd_start_dt DateTime,
 prd_end_dt DateTime
-)
+);
 Go 
+
+										---CRM_Sales_details--
 IF Object_ID ('bronze.crm_sales_details', 'U') Is Not Null
-	Drop Table bronze.crm_sales_details
+	Drop Table bronze.crm_sales_details;
 
 Create Table bronze.crm_sales_details(
 sls_ord_num Nvarchar(50), 
@@ -105,19 +115,36 @@ sls_ship_dt Int,
 sls_due_dt Int,
 sls_sales Int,
 sls_quantity Int,
-sls_price Int)
-
+sls_price Int);
 Go
+
+
+-------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ERP<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--------------
+
+										---ERP_Cust_AZ12------------
+If Object_Id('bronze.erp_CUST_AZ12','U') IS NOT NULL
+	Drop Table bronze.erp_CUST_AZ12;
+
 Create Table bronze.erp_CUST_AZ12(
 CID Nvarchar(50),
 BDATE Date,
-GEN Nvarchar (50))
-Go
+GEN Nvarchar (50));
+
+
+											----ERP_LOC_A101-------
+If Object_Id('bronze.erp_LOC_A101','U') IS NOT NULL
+	Drop Table bronze.erp_LOC_A101;
+
 Create Table bronze.erp_LOC_A101(
 CID Nvarchar(50),
 CNTRY Nvarchar(50)
-)
+);
 Go
+
+										----ERP_PX_CAT_G1V2--------
+If Object_Id('bronze.erp_PX_CAT_G1V2','U') IS NOT NULL
+	Drop Table bronze.erp_PX_CAT_G1V2;
+	
 Create Table bronze.erp_PX_CAT_G1V2(
 ID Nvarchar(50),
 CAT Nvarchar(50),
@@ -125,10 +152,11 @@ SUBCAT Nvarchar(50),
 MAINTENANCE Nvarchar(50)
 )
 
---Upload data into Bronze Table  (Trunctate & Insert)
 
-						  -- Source_CRM
---						
+
+-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Upload data into Bronze Table  (Trunctate & Insert)<<<<<<<<<<<<<<<<<<-----------------------------
+
+						 
 Alter Procedure bronze.load_bronze As 
 Begin
 	Declare @Start_Time DateTime, @End_Time DateTime; 
@@ -139,6 +167,7 @@ Begin
 
 										Print'>>>>>>>>>>CRM-TABLES<<<<<<<<<<<<<<<'
 
+										 -- >>>>>>>>>>>>Source_CRM<<<<<<<<<<<<<<<<<<<<<<<<<<--						
 										--/Cust_Info/
 										Print '>>>>CUST_INFO<<<<'
 	 Set @Start_Time = GetDate();
@@ -184,7 +213,7 @@ Begin
 
 										
 										Print'>>>>>>>>>>>>>>>>SOURCE_ERP<<<<<<<<<<<<<<'
-												--Source_ERP
+												-->>>>>>>>>>>Source_ERP<<<<<<<<<<<-------------
 
 												--/CUST_AZ12-
 												PRINT'>>>>CUST_AZ12<<<<'
@@ -244,11 +273,13 @@ END
 
 Exec bronze.load_bronze
 
+
+------ >>>>>>>>>>>>>>>>>>>>>>Query to view the Tables <<<<<<<<<<<<<<<<<<<<<<<<______________________________________
 	Select * from bronze.erp_CUST_AZ12
 	Select * from bronze.erp_LOC_A101
 	Select * from bronze.erp_PX_CAT_G1V2
 
 
-	------ View the Schemas in the Database
+	------ >>>>>>>>>>>>>>>View the Schemas in the Database
 SELECT name
 FROM sys.schemas
