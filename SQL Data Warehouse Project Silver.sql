@@ -1,3 +1,12 @@
+/*
+	Script Note:
+	1. Uploading from Bronze layer into Silver layer
+	2. Create Silver.table for each CRM and ERP Table
+	3. Truncate and Insert into Silver CRM and ERP Tables 
+	4. Using Stored procedure 
+
+*/
+
 -- Explore & Understanding the data in the Bronze Layer										
 Select Top 1000 * From bronze.crm_cust_info
 Select Top 1000 * From bronze.crm_prd_info
